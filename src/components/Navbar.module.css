@@ -1,0 +1,12 @@
+.navContainer{
+    height: 80px;
+    background-color: bisque;
+}
+.homeBtn{
+    position: absolute;
+    left: 10px;
+}
+.loginBtn{
+    position: absolute;
+    right: 10px;
+}
