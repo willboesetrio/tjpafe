@@ -13,9 +13,9 @@ const Accounts = () => {
               'Content-Type': 'application/json'
             }
           });
-          const allPatients = await response.json();
+          const allAccounts = await response.json();
           if (response.status === 200) {
-            setAccountsArray(allPatients);
+            setAccountsArray(allAccounts);
             // setLoading(false);
           }
         } catch (err) {
