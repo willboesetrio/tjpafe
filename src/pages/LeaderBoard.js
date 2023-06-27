@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import Account from '../components/Account';
 
 const LeaderBoard = () => {
 

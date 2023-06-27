@@ -60,7 +60,7 @@ const Register = () => {
   return (
     <div>
       <h5>Create New Account</h5>
-      <label htmlFor='loginId'>Username: 
+        <label htmlFor='loginId'>Username: 
         <input onChange={(e) => setLoginId(e.target.value)} type='text' id='loginId' name='loginId'/></label>
         <label htmlFor='firstName'>First name: 
         <input onChange={(e) => setFirstName(e.target.value)} type='text' id='firstName' name='FirstName'/></label>

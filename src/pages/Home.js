@@ -21,6 +21,8 @@ const Home = () => {
           <div><button onClick={() => navigate('/donations')}>ALL DONATIONS</button></div>}
         {userProfile && userProfile.account_type_id === "A" &&
           <div><button onClick={() => navigate('/event-participants')}>ALL VOLUNTEER RECORDS</button></div>}
+          {userProfile && userProfile.account_type_id === "V" &&
+          <div><button onClick={() => navigate('/donate')}>MAKE A DONATION</button></div>}
         {userProfile && userProfile.account_type_id === "V" &&
           <div><button onClick={() => navigate('/user-profile')}>VIEW PROFILE</button></div>}
         {userProfile && userProfile.account_type_id === "V" &&

@@ -14,6 +14,7 @@ import EventParticipants from './EventParticipants'
 import UserDonations from './UserDonations'
 import UserEventParticipants from './UserEventParticipants'
 import LeaderBoard from './LeaderBoard'
+import Donate from './Donate'
 
 
 const Routing = () => {
@@ -34,6 +35,7 @@ const Routing = () => {
             <Route path='/leaderboard' element={<LeaderBoard />} />
             <Route path='/login' element={<Login />} />
             <Route path='/user-profile' element={<UserProfile />} />
+            <Route path='/donate' element={<Donate />} />
             <Route path='/register' element={<Register />} />
           </Routes>
         </BrowserRouter>
