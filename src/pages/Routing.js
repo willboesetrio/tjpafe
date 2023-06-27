@@ -7,6 +7,12 @@ import Agencies from './Agencies'
 import Donations from './Donations'
 import Login from './Login'
 import UserProfile from './UserProfile'
+import Register from './Register'
+import Events from './Events'
+import EventAgencyJobs from './EventAgencyJobs'
+import EventParticipants from './EventParticipants'
+import UserDonations from './UserDonations'
+import UserEventParticipants from './UserEventParticipants'
 
 
 const Routing = () => {
@@ -18,9 +24,15 @@ const Routing = () => {
             <Route path='/' element={<Home />} />
             <Route path='/accounts' element={<Accounts />} />
             <Route path='/agencies' element={<Agencies />} />
+            <Route path='/events' element={<Events />} />
+            <Route path='/event-agency-jobs' element={<EventAgencyJobs />} />
+            <Route path='event-participants' element={<EventParticipants />} />
             <Route path='/donations' element={<Donations />} />
+            <Route path='/user-donations' element={<UserDonations />} />
+            <Route path='/user-event-participants' element={<UserEventParticipants />} />
             <Route path='/login' element={<Login />} />
             <Route path='/user-profile' element={<UserProfile />} />
+            <Route path='/register' element={<Register />} />
           </Routes>
         </BrowserRouter>
     </div>
