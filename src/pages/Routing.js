@@ -13,6 +13,7 @@ import EventAgencyJobs from './EventAgencyJobs'
 import EventParticipants from './EventParticipants'
 import UserDonations from './UserDonations'
 import UserEventParticipants from './UserEventParticipants'
+import LeaderBoard from './LeaderBoard'
 
 
 const Routing = () => {
@@ -30,6 +31,7 @@ const Routing = () => {
             <Route path='/donations' element={<Donations />} />
             <Route path='/user-donations' element={<UserDonations />} />
             <Route path='/user-event-participants' element={<UserEventParticipants />} />
+            <Route path='/leaderboard' element={<LeaderBoard />} />
             <Route path='/login' element={<Login />} />
             <Route path='/user-profile' element={<UserProfile />} />
             <Route path='/register' element={<Register />} />
