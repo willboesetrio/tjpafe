@@ -1,18 +1,20 @@
-import React, {useState, useEffect, useContext} from 'react'
-import { LoginContext } from '../contexts/LoginContext'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const Donate = () => {
-
-    const {userProfile} = useContext(LoginContext);
+const NewEvent = () => {
 
     const navigate = useNavigate();
 
     const [agenciesArray, setAgenciesArray] = useState([]);
+    const [name, setName] = useState();    
     const [selectedAgency, setSelectedAgency] = useState();
-    const [paymentMethod, setPaymentMethod] = useState("credit card payment");
-    const [dollarValue, setDollarValue] = useState();
-    const [donoSuccess, setDonoSuccess] = useState(false);
+    const [address1, setAdress1] = useState();
+    const [address2, setAdress2] = useState(null);
+    const [city, setcity] = useState();
+    const [st, setSt] = useState();
+    const [zip, setZip] = useState();
+    const [createSuccess, setCreateSuccess] = useState(false);
+
 
     const getAgencies = async () => {
         try {
@@ -39,23 +41,26 @@ const Donate = () => {
       },[])
 
       const handleSuccess = () => {
-        setDonoSuccess(true);
+        setCreateSuccess(true);
         setTimeout(() => {
-            navigate("/user-donations")
+            navigate("/events")
         }, 2000)
       }
 
-      const handleDonate = async() => {
+      const handleCreate = async() => {
 
         const payload = {
-            dollarValue,
-            desc : paymentMethod,
+            name,
             agencyId : selectedAgency,
-            accountId : userProfile.id
+            address1,
+            address2,
+            city,
+            st,
+            zip
           };
       
           try {
-            const response = await fetch('http://localhost:8080/donate', {
+            const response = await fetch('http://localhost:8080/events', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -78,28 +83,31 @@ const Donate = () => {
 
   return (
     <div>
-        {!donoSuccess ? 
-        <>
-        <h3>Make a Donation</h3>
+        <div>{createSuccess ? <h3>New Event added.</h3> :
+        <div>
+        <label htmlFor='name'>Event Name:
+        <input onChange={(e) => setName(e.target.value)} type='text' id='name' name='name'/></label>
         <label htmlFor='selectedAgency'>Agency: 
             <select onChange={(e) => setSelectedAgency(e.target.value)} id='selectedAgency' name='selectedAgency'>
                 <option value="">Select an Agency</option>
                 {agenciesArray.length > 0 && agenciesArray.map((a) => <option value={a.id} key={a.id}>{a.name}</option>)}
             </select>
         </label>    
-        <label htmlFor='paymentMethod'>Payment method: 
-            <select onChange={(e) => setPaymentMethod(e.target.value)} id='paymentMethod' name='paymentMethod'>
-                <option value="credit card payment">Credit card payment</option>
-                <option value="bank account transfer">Bank account transfer</option>
-            </select>
-        </label>
-        <label htmlFor='dollarValue'>Amount:
-        <input onChange={(e) => setDollarValue(e.target.value)} type="number" min="0.00" step="1.00" max="1000000" name='dollarValue' id='dollarValue'/>
-        </label>
-        <button onClick={handleDonate}>Submit</button>
-        </> : <h3>Event Created</h3>}
+        <label htmlFor='adress1'>Address 1:
+        <input onChange={(e) => setAdress1(e.target.value)} type='text' id='address1' name='adress1'/></label>
+        <label htmlFor='adress2'>Address 2: 
+        <input onChange={(e) => setAdress2(e.target.value)} type='text' id='address2' name='adress2'/></label>
+        <label htmlFor='city'>City: 
+        <input onChange={(e) => setcity(e.target.value)} type='text' id='city' name='city'/></label>
+        <label htmlFor='st'>State: 
+        <input onChange={(e) => setSt(e.target.value)} type='text' id='st' name='st'/></label>
+        <label htmlFor='zip'>Zip: 
+        <input onChange={(e) => setZip(e.target.value)} type='text' id='zip' name='zip'/></label>
+        <button onClick={handleCreate}>Create Agency</button>
+        </div>}
+    </div>
     </div>
   )
 }
 
-export default Donate
+export default NewEvent
