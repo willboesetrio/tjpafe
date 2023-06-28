@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
+import VolunteerSignUp from './VolunteerSignUp';
 
 const EventAgencyJob = ({v}) => {
 
     const [thisEvent, setThisEvent] = useState();
     const [thisAgency, setThisAgency] = useState();
+    const [showVSU, setShowVSU] = useState(false);
 
     const getThisEvent = async () => {
         try {
@@ -56,6 +58,8 @@ const EventAgencyJob = ({v}) => {
         <p>Requested hours: {v.requestedHours}</p>
         <p>Event: {thisEvent && thisEvent.name}</p>
         <p>Agency: {thisAgency && thisAgency.name}</p>
+        <button onClick={() => setShowVSU(true)}>Sign up to volunteer for this event</button>
+        {showVSU && <VolunteerSignUp v={v}/>}
     </div>
   )
 }

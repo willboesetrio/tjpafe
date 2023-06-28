@@ -32,7 +32,7 @@ const LeaderBoard = () => {
   return (
     <div>
         <h3>LeaderBoard</h3>
-        {accountsArray.length > 0 && accountsArray.map((a) => <div key={a.id}><h5>{a.loginId} : {a.points} points</h5></div>)}
+        {accountsArray.length > 0 && accountsArray.map((a, i) => <div key={a.id}><h4>{i+1}</h4><h5>{a.loginId} : {a.points} points</h5></div>)}
     </div>
   )
 }

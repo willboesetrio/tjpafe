@@ -18,6 +18,14 @@ const Register = () => {
   const [city, setcity] = useState();
   const [st, setSt] = useState();
   const [zip, setZip] = useState();
+  const [registerSucces, setRegisterSuccess] = useState(false);
+
+  const handleSuccess = () => {
+    setRegisterSuccess(true);
+    setTimeout(() => {
+        navigate("/")
+    }, 2000)
+  }
 
   const handleCreate = async () => {
 
@@ -47,7 +55,7 @@ const Register = () => {
       if (response.status === 200) {
         setUserProfile(userResponse);
         setIsLogged(true);
-        navigate("/");
+        handleSuccess();
         // setLoading(false);
       }
     } catch (err) {
@@ -59,6 +67,8 @@ const Register = () => {
 
   return (
     <div>
+      {!registerSucces ?
+      <>
       <h5>Create New Account</h5>
         <label htmlFor='loginId'>Username: 
         <input onChange={(e) => setLoginId(e.target.value)} type='text' id='loginId' name='loginId'/></label>
@@ -81,6 +91,7 @@ const Register = () => {
         <label htmlFor='zip'>Zip: 
         <input onChange={(e) => setZip(e.target.value)} type='text' id='zip' name='zip'/></label>
         <button onClick={handleCreate}>Create Account</button>
+        </> : <h3>Account Created!</h3>}
     </div>
   )
 }
