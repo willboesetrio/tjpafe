@@ -1,9 +1,20 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import EventParticipant from '../components/EventParticipant';
+import { useNavigate} from 'react-router-dom'
+import { LoginContext } from '../contexts/LoginContext';
+
 
 const EventParticipants = () => {
 
     const [VolunteerRecs, setVolunteerRecs] = useState([]);
+    const {userProfile, isLogged} = useContext(LoginContext);
+    const navigate = useNavigate();
+
+    useEffect(()=> {
+      if (!userProfile || !userProfile.account_type_id === "A"){
+        navigate("/redirect")
+      }
+    },[])
 
     const getVolunteerRecs = async () => {
         try {

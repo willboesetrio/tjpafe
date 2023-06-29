@@ -4,15 +4,41 @@ import { useNavigate } from 'react-router-dom';
 
 const Donate = () => {
 
-    const {userProfile} = useContext(LoginContext);
+    const {userProfile, isLogged} = useContext(LoginContext);
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+      if (!isLogged){navigate("/redirect")}
+    },[])
 
     const [agenciesArray, setAgenciesArray] = useState([]);
     const [selectedAgency, setSelectedAgency] = useState();
     const [paymentMethod, setPaymentMethod] = useState("credit card payment");
     const [dollarValue, setDollarValue] = useState();
     const [donoSuccess, setDonoSuccess] = useState(false);
+
+    const addPoints = async() => {
+      try {
+        const response = await fetch('http://localhost:8080/add-points', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': "*"
+          },
+          body: JSON.stringify({points: 2, accountId : userProfile.id})
+        });
+        //const userResponse = await response.json();
+        if (response.status === 200) {
+            //handleSuccess();
+          // setLoading(false);
+        }
+      } catch (err) {
+        console.log(err);
+        // setServerError(true);
+        // setLoading(false);
+      }
+    }
 
     const getAgencies = async () => {
         try {
@@ -40,6 +66,7 @@ const Donate = () => {
 
       const handleSuccess = () => {
         setDonoSuccess(true);
+        addPoints();
         setTimeout(() => {
             navigate("/user-donations")
         }, 2000)
@@ -97,7 +124,7 @@ const Donate = () => {
         <input onChange={(e) => setDollarValue(e.target.value)} type="number" min="0.00" step="1.00" max="1000000" name='dollarValue' id='dollarValue'/>
         </label>
         <button onClick={handleDonate}>Submit</button>
-        </> : <h3>Event Created</h3>}
+        </> : <h3>Donation Completed!</h3>}
     </div>
   )
 }

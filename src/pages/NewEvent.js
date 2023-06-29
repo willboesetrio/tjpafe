@@ -1,7 +1,19 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../contexts/LoginContext';
 
 const NewEvent = () => {
+
+    const usStatesNoId = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
+    const usStates = usStatesNoId.map((s, index) => ({ state: s, id: index }));
+
+    const {userProfile, isLogged} = useContext(LoginContext);
+
+    useEffect(()=> {
+      if (!userProfile || !userProfile.account_type_id === "A"){
+        navigate("/redirect")
+      }
+    },[])
 
     const navigate = useNavigate();
 
@@ -99,8 +111,19 @@ const NewEvent = () => {
         <input onChange={(e) => setAdress2(e.target.value)} type='text' id='address2' name='adress2'/></label>
         <label htmlFor='city'>City: 
         <input onChange={(e) => setcity(e.target.value)} type='text' id='city' name='city'/></label>
-        <label htmlFor='st'>State: 
-        <input onChange={(e) => setSt(e.target.value)} type='text' id='st' name='st'/></label>
+
+        <label htmlFor="st">
+            State:
+            <select
+              id="st"
+              name="st"
+              value={st}
+              onChange={(e) => setSt(e.target.value)}
+            >
+              {usStates.map((s) => <option key={s.id} value={s.state}>{s.state}</option>)}
+            </select>
+          </label>
+
         <label htmlFor='zip'>Zip: 
         <input onChange={(e) => setZip(e.target.value)} type='text' id='zip' name='zip'/></label>
         <button onClick={handleCreate}>Create Agency</button>

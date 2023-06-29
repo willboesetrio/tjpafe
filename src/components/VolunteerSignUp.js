@@ -8,8 +8,31 @@ const VolunteerSignUp = ({v}) => {
     const [hoursRegistered, setHoursRegistered] = useState();
     const [registerSuccess, setRegisterSuccess] = useState(false);
 
+    const addPoints = async() => {
+        try {
+          const response = await fetch('http://localhost:8080/add-points', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': "*"
+            },
+            body: JSON.stringify({points: hoursRegistered, accountId : userProfile.id})
+          });
+          //const userResponse = await response.json();
+          if (response.status === 200) {
+              //handleSuccess();
+            // setLoading(false);
+          }
+        } catch (err) {
+          console.log(err);
+          // setServerError(true);
+          // setLoading(false);
+        }
+      }
+
     const handleSuccess = () => {
         setRegisterSuccess(true);
+        addPoints();
     }
 
     const handleRegister = async() => {

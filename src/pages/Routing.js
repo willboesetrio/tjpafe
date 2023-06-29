@@ -18,6 +18,7 @@ import Donate from './Donate'
 import NewAgency from './NewAgency'
 import NewEvent from './NewEvent'
 import NewEAJ from './NewEAJ'
+import Redirect from './Redirect'
 
 
 const Routing = () => {
@@ -43,6 +44,7 @@ const Routing = () => {
             <Route path='/create-agency' element={<NewAgency />} />
             <Route path='/create-event' element={<NewEvent />} />
             <Route path='/create-job' element={<NewEAJ />} />
+            <Route path='/redirect' element={<Redirect />} />
           </Routes>
         </BrowserRouter>
     </div>

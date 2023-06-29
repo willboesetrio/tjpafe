@@ -1,14 +1,23 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import { LoginContext } from '../contexts/LoginContext'
 import Account from '../components/Account';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
 
-    const {userProfile} = useContext(LoginContext);
+  const navigate = useNavigate();
+
+    const {userProfile, isLogged} = useContext(LoginContext);
+
+    useEffect(()=>{
+      if (!isLogged){navigate("/redirect")}
+    },[])
+
 
   return (
     <div>
-        <Account a={userProfile} />
+        {isLogged && <Account a={userProfile} />}
+        <button>EDIT USER PROFILE</button>
     </div>
   )
 }

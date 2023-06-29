@@ -1,9 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../contexts/LoginContext';
 
 const NewEAJ = () => {
 
+    const {userProfile, isLogged} = useContext(LoginContext);
     const navigate = useNavigate();
+
+    useEffect(()=> {
+      if (!userProfile || !userProfile.account_type_id === "A"){
+        navigate("/redirect")
+      }
+    },[])
 
     const [createSuccess, setCreateSuccess] = useState(false);
     const [agenciesArray, setAgenciesArray] = useState([]);

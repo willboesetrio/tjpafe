@@ -1,10 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { LoginContext } from '../contexts/LoginContext'
 import Donation from '../components/Donation';
+import { useNavigate } from 'react-router-dom';
 
 const UserDonations = () => {
 
-    const {userProfile} = useContext(LoginContext);
+  const navigate = useNavigate();
+
+    const {userProfile, isLogged} = useContext(LoginContext);
+
+    useEffect(()=>{
+      if (!isLogged){navigate("/redirect")}
+    },[])
+
 
     const [donationsArray, setDonationsArray] = useState([]);
 

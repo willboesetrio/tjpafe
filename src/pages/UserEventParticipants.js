@@ -1,10 +1,18 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { LoginContext } from '../contexts/LoginContext'
 import EventParticipant from '../components/EventParticipant';
+import { useNavigate } from 'react-router-dom';
 
 const UserEventParticipants = () => {
 
-    const {userProfile} = useContext(LoginContext);
+    const {userProfile, isLogged} = useContext(LoginContext);
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+      if (!isLogged){navigate("/redirect")}
+    },[])
+
 
     const [VolunteerRecs, setVolunteerRecs] = useState([]);
 
