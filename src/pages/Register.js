@@ -20,7 +20,7 @@ const Register = () => {
   const [address1, setAdress1] = useState();
   const [address2, setAdress2] = useState(null);
   const [city, setcity] = useState();
-  const [st, setSt] = useState();
+  const [st, setSt] = useState('AL');
   const [zip, setZip] = useState('');
   const [registerSucces, setRegisterSuccess] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -166,6 +166,7 @@ const Register = () => {
         <label htmlFor="st">
             State:
             <select
+              className={styles.selectst}
               id="st"
               name="st"
               value={st}
@@ -183,8 +184,8 @@ const Register = () => {
         <input onChange={(e) => setZip(e.target.value)} type='text' id='zip' name='zip'/></label>
         </div>
 
-        <button onClick={handleCreate}>Create Account</button>
-        </div> : <h3>Account Created!</h3>}
+        <button className={styles.submit} onClick={handleCreate}>Create Account</button>
+        </div> :  <h3>Account Created!</h3>}
         
         {requiredErr && buttonClicked && <p className={styles.rfield}>Complete all required fields</p>}
     </div>

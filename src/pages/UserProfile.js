@@ -17,7 +17,7 @@ const UserProfile = () => {
   return (
     <div>
         {isLogged && <Account a={userProfile} />}
-        <button>EDIT USER PROFILE</button>
+        <button onClick={() => navigate('/edit-profile')}>EDIT USER PROFILE</button>
     </div>
   )
 }

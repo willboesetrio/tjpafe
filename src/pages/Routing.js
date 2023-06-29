@@ -19,6 +19,7 @@ import NewAgency from './NewAgency'
 import NewEvent from './NewEvent'
 import NewEAJ from './NewEAJ'
 import Redirect from './Redirect'
+import EditProfile from './EditProfile'
 
 
 const Routing = () => {
@@ -45,6 +46,7 @@ const Routing = () => {
             <Route path='/create-event' element={<NewEvent />} />
             <Route path='/create-job' element={<NewEAJ />} />
             <Route path='/redirect' element={<Redirect />} />
+            <Route path='/edit-profile' element={<EditProfile />} />
           </Routes>
         </BrowserRouter>
     </div>

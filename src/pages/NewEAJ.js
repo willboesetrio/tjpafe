@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../contexts/LoginContext';
+import styles from './Register.module.css'
 
 const NewEAJ = () => {
 
@@ -20,6 +21,18 @@ const NewEAJ = () => {
     const [selectedEvent, setSelectedEvent] = useState();
     const [name, setName] = useState();
     const [requestedHours, setRequestedHours] = useState();
+    const [buttonClicked, setButtonClicked] = useState();
+
+    //errs
+    const [requiredErr, setRequiredErr] = useState(false);
+
+    useEffect(() => {
+        if (!selectedAgency || !selectedEvent || !name || !requestedHours) {
+            setRequiredErr(true);
+        } else {
+            setRequiredErr(false);
+        }
+    }, [selectedAgency, selectedEvent, name, requestedHours])
 
     const getAgencies = async () => {
         try {
@@ -79,6 +92,10 @@ const NewEAJ = () => {
 
       const handleCreate = async() => {
 
+        setButtonClicked(true);
+
+        if (!requiredErr) {
+
         const payload = {
             name,
             requestedHours,
@@ -106,34 +123,55 @@ const NewEAJ = () => {
             // setLoading(false);
           }
         }
+        }
 
 
   return (
     <div>
         <div>{createSuccess ? <h3>New Job Posting Created.</h3> :
-        <div>
+        <div className={styles.container}>
+            <h3>Create New Job</h3>
 
+            <p style={{"text-align": "center"}}>Select Agency first to see available events</p>
+            <p className={styles.rfield}>* Required</p>
+
+        <div className={styles.field}>
+           
+        <div className={styles.rfield}>*</div>   
         <label htmlFor='selectedAgency'>Agency: 
-            <select onChange={(e) => setSelectedAgency(e.target.value)} id='selectedAgency' name='selectedAgency'>
+            <select className={styles.selecta} onChange={(e) => setSelectedAgency(e.target.value)} id='selectedAgency' name='selectedAgency'>
                 <option value="">Select an Agency</option>
                 {agenciesArray.length > 0 && agenciesArray.map((a) => <option value={a.id} key={a.id}>{a.name}</option>)}
             </select>
         </label>  
+        </div>
 
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor='selectedEvent'>Event: 
-            <select onChange={(e) => setSelectedEvent(e.target.value)} id='selectedEvent' name='selectedEvent'>
+            <select className={styles.selecte} onChange={(e) => setSelectedEvent(e.target.value)} id='selectedEvent' name='selectedEvent'>
                 <option value="">Select an Event</option>
                 {relatedEvents.length > 0 && relatedEvents.map((a) => <option value={a.id} key={a.id}>{a.name}</option>)}
             </select>
         </label>
+        </div>
+
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor='job'>Job Description: 
         <input onChange={(e) => setName(e.target.value)} type='text' id='job' name='job'/></label>
-        <label htmlFor='hours'>Requested hours: 
-        <input onChange={(e) => setRequestedHours(e.target.value)} type='number' min='1' max='8' step='1' id='hours' name='hours'/></label>       
+        </div>
 
-        <button onClick={handleCreate}>Create Job</button>
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
+        <label htmlFor='hours'>Requested hours: 
+        <input className={styles.inputh} onChange={(e) => setRequestedHours(e.target.value)} type='number' min='1' max='8' step='1' id='hours' name='hours'/></label>
+        </div>       
+
+        <button className={styles.submit} onClick={handleCreate}>Create Job</button>
         </div>}
     </div>
+    {requiredErr && buttonClicked && <p className={styles.rfield}>Complete all required fields</p>}
     </div>
   )
 }

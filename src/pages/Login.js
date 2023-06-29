@@ -9,6 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const [loginId, setLoginId] = useState();
+    const [loginErr, setLoginErr] = useState(false);
 
     const handleLogin = async () => {
         try {
@@ -31,6 +32,7 @@ const Login = () => {
             console.log(err);
             // setServerError(true);
             // setLoading(false);
+            setLoginErr(true);
           }
     }
 
@@ -40,6 +42,7 @@ const Login = () => {
         <label htmlFor='loginId'>Username: 
         <input onChange={(e) => setLoginId(e.target.value)} type='text' id='loginId' name='loginId'/></label>
         <button onClick={handleLogin}>Login</button>
+        {loginErr && <p style={{"color":"red"}}>Invalid Credentials</p>}
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../contexts/LoginContext';
+import styles from './Register.module.css'
 
 const NewEvent = () => {
 
@@ -8,6 +9,23 @@ const NewEvent = () => {
     const usStates = usStatesNoId.map((s, index) => ({ state: s, id: index }));
 
     const {userProfile, isLogged} = useContext(LoginContext);
+
+    const [agenciesArray, setAgenciesArray] = useState([]);
+    const [name, setName] = useState();    
+    const [selectedAgency, setSelectedAgency] = useState();
+    const [address1, setAdress1] = useState();
+    const [address2, setAdress2] = useState(null);
+    const [city, setcity] = useState();
+    const [st, setSt] = useState('AL');
+    const [zip, setZip] = useState('');
+    const [date, setDate] = useState('');
+    const [createSuccess, setCreateSuccess] = useState(false);
+    const [buttonClicked, setButtonClicked] = useState(false);
+
+    //errs
+    const [zipErr, setZipErr] = useState(false);
+    const [dateErr, setDateErr] = useState(false);
+    const [requiredErr, setRequiredErr] = useState(false);
 
     useEffect(()=> {
       if (!userProfile || !userProfile.account_type_id === "A"){
@@ -18,20 +36,29 @@ const NewEvent = () => {
     useEffect(() => {
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
         const zipRegex = /^\d{5}$/;
-    },[])
+
+        if (!zip.match(zipRegex)) {
+            setZipErr(true);
+          } else {
+            setZipErr(false);
+          }
+        if (!date.match(dateRegex)) {
+            setDateErr(true)
+        } else {
+            setDateErr(false);
+        }
+          if(!name ||
+              !address1 ||
+              !selectedAgency ||
+              !city) {
+                setRequiredErr(true);
+              } else {
+                setRequiredErr(false);
+              }
+    },[zip, date, address1, selectedAgency, city])
 
     const navigate = useNavigate();
 
-    const [agenciesArray, setAgenciesArray] = useState([]);
-    const [name, setName] = useState();    
-    const [selectedAgency, setSelectedAgency] = useState();
-    const [address1, setAdress1] = useState();
-    const [address2, setAdress2] = useState(null);
-    const [city, setcity] = useState();
-    const [st, setSt] = useState();
-    const [zip, setZip] = useState();
-    const [date, setDate] = useState();
-    const [createSuccess, setCreateSuccess] = useState(false);
 
 
     const getAgencies = async () => {
@@ -67,6 +94,10 @@ const NewEvent = () => {
 
       const handleCreate = async() => {
 
+        setButtonClicked(true);
+
+        if (!zipErr && !dateErr && !requiredErr) {
+
         const payload = {
             name,
             agencyId : selectedAgency,
@@ -98,30 +129,55 @@ const NewEvent = () => {
             // setLoading(false);
           }
         }
+        }
 
 
   return (
     <div>
         <div>{createSuccess ? <h3>New Event added.</h3> :
-        <div>
+        <div className={styles.container}>
+            <h3>Create New Event</h3>
+            <p className={styles.rfield}>* Required</p>
+
+            <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor='name'>Event Name:
         <input onChange={(e) => setName(e.target.value)} type='text' id='name' name='name'/></label>
+        </div>
+        
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor='selectedAgency'>Agency: 
-            <select onChange={(e) => setSelectedAgency(e.target.value)} id='selectedAgency' name='selectedAgency'>
+            <select className={styles.selecta} onChange={(e) => setSelectedAgency(e.target.value)} id='selectedAgency' name='selectedAgency'>
                 <option value="">Select an Agency</option>
                 {agenciesArray.length > 0 && agenciesArray.map((a) => <option value={a.id} key={a.id}>{a.name}</option>)}
             </select>
         </label>    
-        <label htmlFor='adress1'>Address 1:
+        </div>
+        
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
+        <label htmlFor='adress1'>Address 1: 
         <input onChange={(e) => setAdress1(e.target.value)} type='text' id='address1' name='adress1'/></label>
+        </div>
+
+        <div className={styles.field}>
         <label htmlFor='adress2'>Address 2: 
         <input onChange={(e) => setAdress2(e.target.value)} type='text' id='address2' name='adress2'/></label>
+        </div>
+
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor='city'>City: 
         <input onChange={(e) => setcity(e.target.value)} type='text' id='city' name='city'/></label>
+        </div>
 
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor="st">
             State:
             <select
+            className={styles.selectst}
               id="st"
               name="st"
               value={st}
@@ -130,14 +186,26 @@ const NewEvent = () => {
               {usStates.map((s) => <option key={s.id} value={s.state}>{s.state}</option>)}
             </select>
           </label>
+          </div>
 
+          <div className={styles.field}>
+          {zipErr && buttonClicked && <p className={styles.errfield}>Enter a valid zip code</p>}
+        <div className={styles.rfield}>*</div>
         <label htmlFor='zip'>Zip: 
         <input onChange={(e) => setZip(e.target.value)} type='text' id='zip' name='zip'/></label>
+        </div>
+
+          <div className={styles.field}>
+          {dateErr && buttonClicked && <p className={styles.errfield}>Enter a valid date</p>}
+        <div className={styles.rfield}>*</div>
         <label htmlFor='date'>Date: 
         <input onChange={(e) => setDate(e.target.value)} placeholder='YYYY-MM-DD' type='text' id='date' name='date'/></label>
-        <button onClick={handleCreate}>Create Agency</button>
+        </div>
+
+        <button className={styles.submit} onClick={handleCreate}>Create Agency</button>
         </div>}
     </div>
+    {requiredErr && buttonClicked && <p className={styles.rfield}>Complete all required fields</p>}
     </div>
   )
 }

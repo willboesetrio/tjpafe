@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../contexts/LoginContext';
+import styles from './Register.module.css'
 
 const NewAgency = () => {
 
@@ -15,10 +16,6 @@ const NewAgency = () => {
       }
     },[])
 
-    useEffect(() => {
-        const zipRegex = /^\d{5}$/;
-    },[])
-
     const navigate = useNavigate();
 
   const [name, setname] = useState();
@@ -26,9 +23,32 @@ const NewAgency = () => {
   const [address1, setAdress1] = useState();
   const [address2, setAdress2] = useState(null);
   const [city, setcity] = useState();
-  const [st, setSt] = useState();
-  const [zip, setZip] = useState();
+  const [st, setSt] = useState('AL');
+  const [zip, setZip] = useState('');
   const [createSucces, setCreateSuccess] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  //errs
+  const [zipErr, setZipErr] = useState(false);
+  const [requiredErr, setRequiredErr] = useState(false);
+
+  useEffect(() => {
+
+    const zipRegex = /^\d{5}$/;
+    if (!zip.match(zipRegex)) {
+        setZipErr(true);
+      } else {
+        setZipErr(false);
+      }
+      if(!name ||
+          !ein ||
+          !address1 ||
+          !city) {
+            setRequiredErr(true);
+          } else {
+            setRequiredErr(false);
+          }
+  }, [zip, name, ein, city])
 
   const handleSuccess = () => {
     setCreateSuccess(true);
@@ -38,6 +58,10 @@ const NewAgency = () => {
   }
 
   const handleCreate = async () => {
+
+    setButtonClicked(true);
+
+    if (!zipErr && !requiredErr) {
 
     const payload = {
       name,
@@ -68,25 +92,50 @@ const NewAgency = () => {
       // setServerError(true);
       // setLoading(false);
     }
+    }
   }
 
   return (
     <div>{createSucces ? <h3>New Agency added.</h3> :
-        <div>
+        <div className={styles.container}>
+            <h3>Create New Agency</h3>
+            <p className={styles.rfield}>* Required</p>
+
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>    
         <label htmlFor='name'>Agency Name:
         <input onChange={(e) => setname(e.target.value)} type='text' id='name' name='name'/></label>
+        </div>
+
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor='adress2'>EIN: 
         <input onChange={(e) => setEin(e.target.value)} type='text' id='ein' name='ein'/></label>
-        <label htmlFor='adress1'>Address 1:
+        </div>
+  
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
+        <label htmlFor='adress1'>Address 1: 
         <input onChange={(e) => setAdress1(e.target.value)} type='text' id='address1' name='adress1'/></label>
+        </div>
+
+        <div className={styles.field}>
         <label htmlFor='adress2'>Address 2: 
         <input onChange={(e) => setAdress2(e.target.value)} type='text' id='address2' name='adress2'/></label>
+        </div>
+
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor='city'>City: 
         <input onChange={(e) => setcity(e.target.value)} type='text' id='city' name='city'/></label>
+        </div>
 
+        <div className={styles.field}>
+        <div className={styles.rfield}>*</div>
         <label htmlFor="st">
             State:
             <select
+            className={styles.selectst}
               id="st"
               name="st"
               value={st}
@@ -95,11 +144,20 @@ const NewAgency = () => {
               {usStates.map((s) => <option key={s.id} value={s.state}>{s.state}</option>)}
             </select>
           </label>
+          </div>
 
+          <div className={styles.field}>
+          {zipErr && buttonClicked && <p className={styles.errfield}>Enter a valid zip code</p>}
+        <div className={styles.rfield}>*</div>
         <label htmlFor='zip'>Zip: 
         <input onChange={(e) => setZip(e.target.value)} type='text' id='zip' name='zip'/></label>
-        <button onClick={handleCreate}>Create Agency</button>
+        </div>
+    
+
+        <button className={styles.submit} onClick={handleCreate}>Create Agency</button>
         </div>}
+
+        {requiredErr && buttonClicked && <p className={styles.rfield}>Complete all required fields</p>}
     </div>
   )
 }
