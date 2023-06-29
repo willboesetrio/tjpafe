@@ -15,6 +15,10 @@ const NewAgency = () => {
       }
     },[])
 
+    useEffect(() => {
+        const zipRegex = /^\d{5}$/;
+    },[])
+
     const navigate = useNavigate();
 
   const [name, setname] = useState();

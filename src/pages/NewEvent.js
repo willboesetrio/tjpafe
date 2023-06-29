@@ -15,6 +15,11 @@ const NewEvent = () => {
       }
     },[])
 
+    useEffect(() => {
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        const zipRegex = /^\d{5}$/;
+    },[])
+
     const navigate = useNavigate();
 
     const [agenciesArray, setAgenciesArray] = useState([]);
@@ -25,6 +30,7 @@ const NewEvent = () => {
     const [city, setcity] = useState();
     const [st, setSt] = useState();
     const [zip, setZip] = useState();
+    const [date, setDate] = useState();
     const [createSuccess, setCreateSuccess] = useState(false);
 
 
@@ -68,7 +74,8 @@ const NewEvent = () => {
             address2,
             city,
             st,
-            zip
+            zip,
+            eventDatetime : date + "T12:00:00Z"
           };
       
           try {
@@ -126,6 +133,8 @@ const NewEvent = () => {
 
         <label htmlFor='zip'>Zip: 
         <input onChange={(e) => setZip(e.target.value)} type='text' id='zip' name='zip'/></label>
+        <label htmlFor='date'>Date: 
+        <input onChange={(e) => setDate(e.target.value)} placeholder='YYYY-MM-DD' type='text' id='date' name='date'/></label>
         <button onClick={handleCreate}>Create Agency</button>
         </div>}
     </div>

@@ -34,6 +34,7 @@ const Event = ({e}) => {
         <p>Agency: {thisAgency && thisAgency.name}</p>
         <p>Address: {e.address1} {e.address2 && e.address2}</p>
         <p>{e.city} {e.st} {e.zip}</p>
+        <p>Date: {e.eventDatetime.slice(0, 10)}</p>
     </div>
   )
 }
