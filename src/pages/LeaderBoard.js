@@ -30,9 +30,11 @@ const LeaderBoard = () => {
       },[])
 
   return (
-    <div>
-        <h3>LeaderBoard</h3>
-        {accountsArray.length > 0 && accountsArray.map((a, i) => <div key={a.id}><h4>{i+1}</h4><h5>{a.loginId} : {a.points} points</h5></div>)}
+    <div style={{"width":"fit-content", "margin":"0 auto"}}>
+        <h3>Leader Board</h3>
+        {accountsArray.length > 0 && accountsArray.map((a, i) => 
+        <div key={a.id} style={{"margin-top": "20px", "text-align":"left"}}><h3 style={{"display":"inline"}}>{i+1}</h3>
+        <h5 style={{"display":"inline", "margin-left": "10px"}}>{a.loginId} : {a.points} points</h5></div>)}
     </div>
   )
 }

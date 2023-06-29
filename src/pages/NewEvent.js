@@ -202,7 +202,7 @@ const NewEvent = () => {
         <input onChange={(e) => setDate(e.target.value)} placeholder='YYYY-MM-DD' type='text' id='date' name='date'/></label>
         </div>
 
-        <button className={styles.submit} onClick={handleCreate}>Create Agency</button>
+        <button className={styles.submit} onClick={handleCreate}>Create Event</button>
         </div>}
     </div>
     {requiredErr && buttonClicked && <p className={styles.rfield}>Complete all required fields</p>}
